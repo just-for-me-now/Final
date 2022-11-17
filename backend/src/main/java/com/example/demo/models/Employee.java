@@ -11,7 +11,7 @@ public class Employee {
 
     @Id
     @GeneratedValue
-    private int Id;
+    private long id;
 
     private String firtname;
 
@@ -20,5 +20,9 @@ public class Employee {
     private String phoneNumber;
 
     private String email;
+
+    public long getId() {
+        return id;
+    }
 
 }
