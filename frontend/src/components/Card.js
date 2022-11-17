@@ -3,13 +3,13 @@ function Card(props) {
     return (
         <div className='cardContainer'>
             <div className="cardStyle">
-                <div className='moveRight clickMe'>X</div>
+                <button className='moveRight clickMe'>X</button>
                 <br></br>
                 <p>{props.employee.firstName}</p>
                 <p>{props.employee.lastName}</p>
                 <p>{props.employee.phoneNumber}</p>
                 <p>{props.employee.email}</p>
-                <p className='clickMe'>Modify Card</p>
+                <button className='clickMe'>Modify Card</button>
             </div>
         </div>
       
