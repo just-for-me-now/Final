@@ -96,10 +96,10 @@ function Empty(props) {
         <div className='cardContainer addNewCard'>
             <div className="cardStyle emptyCard">
                 <form>
-                    <p><input class={wrongName} type="text" placeholder='Name' onChange={handleNameChange} value={firstName} /></p>
-                    <p><input class={wrongLastName} type="text" placeholder='Last Name' onChange={handleLastNameChange} value={lastName} /></p>
-                    <p><input class={wrongPhone} type="text" placeholder='Phone Number' onChange={handlePhoneChange} value={phoneNumber} /></p>
-                    <p><input class={wrongEmail} type="text" placeholder='Email' onChange={handleEmailChange} value={email} /></p>
+                    <p><input className={wrongName} type="text" placeholder='Name' onChange={handleNameChange} value={firstName} /></p>
+                    <p><input className={wrongLastName} type="text" placeholder='Last Name' onChange={handleLastNameChange} value={lastName} /></p>
+                    <p><input className={wrongPhone} type="text" placeholder='Phone Number' onChange={handlePhoneChange} value={phoneNumber} /></p>
+                    <p><input className={wrongEmail} type="text" placeholder='Email' onChange={handleEmailChange} value={email} /></p>
                     <p><button onClick={handleSubmit} className='clickMe'>Add new Employee</button></p>
                 </form>
             </div>

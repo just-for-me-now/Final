@@ -1,5 +1,4 @@
 import '../App.css';
-import {useEffect} from 'react'
 function Card(props) {
 
     const deleteEmployee =() => {
