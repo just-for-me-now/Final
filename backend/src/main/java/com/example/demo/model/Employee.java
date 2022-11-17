@@ -38,7 +38,7 @@ public class Employee {
     @JsonProperty("email")
     @NotNull
     @Size(max = 25, message = "email cannot be longer than 25 characters")
-    @Pattern(regexp ="^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
+    @Pattern(regexp ="^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,6})$")
     private String email;
 
     public Employee(String firstName, String lastName, String phoneNumber, String email){
