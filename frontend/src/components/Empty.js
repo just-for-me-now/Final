@@ -40,41 +40,56 @@ function Empty(props) {
     }
 
     const handleNameChange = e => {
-        setWrongName("");
+        endValidation();
         setName(e.target.value);
     }
 
     const handleLastNameChange = e => {
-        setWrongLastName("");
+        endValidation();
         setLastName(e.target.value);
     }
 
     const handlePhoneChange = e => {
-        setWrongPhone("");
+        endValidation();
         setPhone(e.target.value);
     }
 
     const handleEmailChange = e => {
-        setWrongEmail("");
+        endValidation();
         setEmail(e.target.value);
     }
 
     const validateData = () => {
+        let ans = true;
+
         if(firstName.length < 2 || firstName.length > 25) {
+            ans = false;
             setWrongName("wrong");
         }
 
         if(lastName.length < 2 || lastName.length > 25) {
+            ans = false;
             setWrongLastName("wrong");
         }
 
         if(phoneNumber.length < 2 || phoneNumber.length > 20) {
+            ans = false;
             setWrongPhone("wrong");
         }
 
         if(email.length > 25) {
+            ans = false;
             setWrongEmail("wrong");
         }
+
+        return ans;
+    }
+
+    const endValidation = () => {
+        setWrongName("");
+        setWrongLastName("");
+        setWrongPhone("");
+        setWrongEmail("");
     }
 
     return (
