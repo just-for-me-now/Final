@@ -6,6 +6,8 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.validation.Valid;
+import javax.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -37,7 +39,7 @@ public class Controller {
     }
 
     @PostMapping(path = "/employees")
-    public ResponseEntity<Employee> addEmployee(@RequestBody Employee e) {
+    public ResponseEntity<Employee> addEmployee(@Valid @RequestBody Employee e) throws ValidationException {
         Employee returnedEmployee = service.addEmployee(e);
 
         URI location = ServletUriComponentsBuilder
@@ -50,8 +52,8 @@ public class Controller {
     }
 
     @PutMapping(path = "/employees/{id}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable long id, @RequestBody Employee newData)
-            throws EmployeeNotFoundException {
+    public ResponseEntity<Employee> updateEmployee(@PathVariable long id, @Valid @RequestBody Employee newData)
+            throws EmployeeNotFoundException, ValidationException {
         service.updateEmployee(id, newData);
 
         return new ResponseEntity(HttpStatus.ACCEPTED);
