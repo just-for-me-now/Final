@@ -3,9 +3,14 @@ package com.example.demo.controller;
 import com.example.demo.model.Employee;
 import com.example.demo.service.EmployeeService;
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,7 +44,9 @@ public class Controller {
                 .fromCurrentRequest().path("/{id}")
                 .buildAndExpand(returnedEmployee.getId()).toUri();
 
-        return (ResponseEntity<Employee>) ResponseEntity.created(location);
+        MultiValueMap<String, String> headers = new HttpHeaders();
+        headers.add("location", location.toString());
+        return new ResponseEntity(headers, HttpStatus.CREATED);
     }
 
     @PutMapping(path = "/employees/{id}")
@@ -47,13 +54,13 @@ public class Controller {
             throws EmployeeNotFoundException {
         service.updateEmployee(id, newData);
 
-        return (ResponseEntity<Employee>) ResponseEntity.accepted();
+        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping(path = "/employees/{id}")
     public ResponseEntity<Employee> deleteEmployee(@PathVariable long id) throws EmployeeNotFoundException {
         service.deleteEmployee(id);
 
-        return (ResponseEntity<Employee>) ResponseEntity.accepted();
+        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 }
