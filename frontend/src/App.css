@@ -86,3 +86,7 @@ h1{
 .addNewCard{
   cursor: pointer;
 }
+.wrong{
+  color:red;
+  border-color: red;
+}
