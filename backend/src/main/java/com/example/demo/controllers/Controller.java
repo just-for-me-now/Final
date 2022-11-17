@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.models.Employee;
+import com.example.demo.service.EmployeeService;
 import java.net.URI;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
