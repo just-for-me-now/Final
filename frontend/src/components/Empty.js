@@ -3,18 +3,25 @@ import '../App.css';
 function Empty(props) {
 
     const [firstName, setName] = useState("");
+    const [wrongName, setWrongName] = useState("");
     const [lastName, setLastName] = useState("");
+    const [wrongLastName, setWrongLastName] = useState("");
     const [phoneNumber, setPhone] = useState("");
-    const   [email, setEmail] = useState("");
+    const [wrongPhone, setWrongPhone] = useState("");
+    const [email, setEmail] = useState("");
+    const [wrongEmail, setWrongEmail] = useState("");
 
     const handleSubmit = e => {
         e.preventDefault();
+        if(!validateData()) return;
+
         var employee = {
             firstName,
             lastName,
             phoneNumber,
             email
         }
+
         fetch("http://localhost:8080/employees",
         {
             headers: {
@@ -23,33 +30,61 @@ function Empty(props) {
             method: "POST",
             body: JSON.stringify(employee)
         })
+        .then(() => {
+            setName("");
+            setLastName("");
+            setPhone("");
+            setEmail("");
+        })
         .then(props.newEmployee());
     }
 
     const handleNameChange = e => {
+        setWrongName("");
         setName(e.target.value);
     }
 
     const handleLastNameChange = e => {
+        setWrongLastName("");
         setLastName(e.target.value);
     }
 
     const handlePhoneChange = e => {
+        setWrongPhone("");
         setPhone(e.target.value);
     }
 
     const handleEmailChange = e => {
+        setWrongEmail("");
         setEmail(e.target.value);
+    }
+
+    const validateData = () => {
+        if(firstName.length < 2 || firstName.length > 25) {
+            setWrongName("wrong");
+        }
+
+        if(lastName.length < 2 || lastName.length > 25) {
+            setWrongLastName("wrong");
+        }
+
+        if(phoneNumber.length < 2 || phoneNumber.length > 20) {
+            setWrongPhone("wrong");
+        }
+
+        if(email.length > 25) {
+            setWrongEmail("wrong");
+        }
     }
 
     return (
         <div className='cardContainer addNewCard'>
             <div className="cardStyle emptyCard">
                 <form>
-                    <p><input type="text" placeholder='Name' onChange={handleNameChange} value={firstName} /></p>
-                    <p><input type="text" placeholder='Last Name' onChange={handleLastNameChange} value={lastName} /></p>
-                    <p><input type="text" placeholder='Phone Number' onChange={handlePhoneChange} value={phoneNumber} /></p>
-                    <p><input type="text" placeholder='Email' onChange={handleEmailChange} value={email} /></p>
+                    <p><input class={wrongName} type="text" placeholder='Name' onChange={handleNameChange} value={firstName} /></p>
+                    <p><input class={wrongLastName} type="text" placeholder='Last Name' onChange={handleLastNameChange} value={lastName} /></p>
+                    <p><input class={wrongPhone} type="text" placeholder='Phone Number' onChange={handlePhoneChange} value={phoneNumber} /></p>
+                    <p><input class={wrongEmail} type="text" placeholder='Email' onChange={handleEmailChange} value={email} /></p>
                     <p><button onClick={handleSubmit} className='clickMe'>Add new Employee</button></p>
                 </form>
             </div>
