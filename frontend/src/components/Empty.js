@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import '../App.css';
-function Empty() {
+function Empty(props) {
 
     const [firstName, setName] = useState("");
     const [lastName, setLastName] = useState("");
