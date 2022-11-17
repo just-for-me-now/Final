@@ -5,11 +5,13 @@ import com.example.demo.model.Employee;
 import com.example.demo.repository.EmployeeRepository;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmployeeService {
 
+    @Autowired
     private EmployeeRepository repo;
 
     public Employee getEmployee(long id) throws EmployeeNotFoundException {
