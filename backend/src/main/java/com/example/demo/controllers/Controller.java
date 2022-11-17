@@ -4,6 +4,7 @@ import com.example.demo.models.Employee;
 import java.net.URI;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,5 +37,19 @@ public class Controller {
                 .buildAndExpand(returnedEmployee.getId()).toUri();
 
         return (ResponseEntity<Employee>) ResponseEntity.created(location);
+    }
+
+    @PutMapping(path = "/employees/{id}")
+    public ResponseEntity<Employee> updateEmployee(@PathVariable long id, @RequestBody Employee newData) {
+        service.updateEmployee(id, newData);
+
+        return (ResponseEntity<Employee>) ResponseEntity.accepted();
+    }
+
+    @DeleteMapping(path = "/employees/{id}")
+    public ResponseEntity<Employee> deleteEmployee(@PathVariable long id) {
+        service.deleteEmployee(id);
+
+        return (ResponseEntity<Employee>) ResponseEntity.accepted();
     }
 }
