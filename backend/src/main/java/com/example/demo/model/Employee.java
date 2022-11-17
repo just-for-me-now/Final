@@ -21,17 +21,17 @@ public class Employee {
 
     @JsonProperty("first-name")
     @NotNull
-    @Size(max = 25, message = "first name cannot be longer than 25 characters")
+    @Size(max = 25, min = 2, message = "first name cannot be longer than 25 characters")
     private String firstName;
 
     @JsonProperty("last-name")
     @NotNull
-    @Size(max = 25,message = "first name cannot be longer than 25 characters")
+    @Size(max = 25, min = 2, message = "first name cannot be longer than 25 characters")
     private String lastName;
 
     @JsonProperty("phone-number")
     @NotNull
-    @Size(max = 20, message = "phone number cannot be longer than 20 characters")
+    @Size(max = 20, min = 2, message = "phone number cannot be longer than 20 characters")
     @Pattern(regexp = "^(\\d{3}[- ]?){3}$")
     private String phoneNumber;
 

@@ -8,15 +8,16 @@ import com.example.demo.model.Employee;
 import io.restassured.http.ContentType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class ApiTests {
+class ApiTests {
 
     @Test
-    public void getSpecificEmployeeReturnsAnEmployee() {
+    void getSpecificEmployeeReturnsAnEmployee() {
         Employee e = when().get("http://localhost:8080/employees/1")
                 .then().assertThat().statusCode(200)
                 .extract().body().as(Employee.class);
@@ -28,22 +29,13 @@ public class ApiTests {
     }
 
     @Test
-    public void getSpecificEmployeeWithWrongIdReturns404() {
+    void getSpecificEmployeeWithWrongIdReturns404() {
         when().get("http://localhost:8080/employees/1000000")
                 .then().assertThat().statusCode(404);
     }
 
     @Test
-    public void getAllEmployeesReturnsTheCorrectNumberOfEmployees() {
-        Employee[] employees = when().get("http://localhost:8080/employees")
-                .then().assertThat().statusCode(200)
-                .extract().body().as(Employee[].class);
-
-        assertEquals(3, employees.length);
-    }
-
-    @Test
-    public void postEmployeeReturnsCreatedWithAValidLocationHeaderWithTheData() {
+    void postEmployeeReturnsCreatedWithAValidLocationHeaderWithTheData() {
         Employee e = new Employee("John", "Carpenter", "123-123-123", "john@carpenter.com");
         String location = given().contentType(ContentType.JSON).body(e)
                 .when().post("http://localhost:8080/employees")
@@ -56,14 +48,14 @@ public class ApiTests {
 
     @ParameterizedTest
     @MethodSource("wrongEmployees")
-    public void postEmployeeWithWrongValuesReturnsA500(long id, Employee employee) {
+    void postEmployeeWithWrongValuesReturnsA400(Employee employee) {
         given().contentType(ContentType.JSON).body(employee)
                 .when().post("http://localhost:8080/employees")
-                .then().assertThat().statusCode(500);
+                .then().assertThat().statusCode(400);
     }
 
     @Test
-    public void putEmployeeReturnsA202AndChangesTheValues() {
+    void putEmployeeReturnsA202AndChangesTheValues() {
         Employee e = new Employee("John", "Carpenter", "123-123-123", "john@carpenter.com");
         String location = given().contentType(ContentType.JSON).body(e)
                 .when().post("http://localhost:8080/employees")
@@ -78,26 +70,29 @@ public class ApiTests {
 
     @ParameterizedTest
     @MethodSource("wrongEmployees")
-    public void putEmployeeWithWrongOrEmptyJSONReturns500(long id, Employee employee) {
+    void putEmployeeWithWrongOrEmptyJSONReturns400(Employee employee) {
         Employee expected = new Employee("John", "Doe", "979-490-742", "john@doe.com");
-        expected.setId(1);
+        String location = given().contentType(ContentType.JSON).body(expected).post("http://localhost:8080/employees")
+                .then().extract().header("location");
+        expected = given().get(location).then().extract().body().as(Employee.class);
 
-        given().contentType(ContentType.JSON).body(employee).when().put("http://localhost:8080/employees" + id)
-                .then().assertThat().statusCode(500);
+        given().contentType(ContentType.JSON).body(employee).when().put(location)
+                .then().assertThat().statusCode(400);
 
-        Employee received = when().get("http://localhost:8080/employees" + id)
+        Employee received = when().get(location)
                 .then().extract().as(Employee.class);
         assertEquals(expected, received);
     }
 
     @Test
-    public void putEmployeeWithWrongIdReturns404() {
-        when().put("http://localhost:8080/employees/1000000")
+    void putEmployeeWithWrongIdReturns404() {
+        Employee e = new Employee("John", "Doe", "979-490-742", "john@doe.com");
+        given().contentType(ContentType.JSON).body(e).when().put("http://localhost:8080/employees/10000")
                 .then().assertThat().statusCode(404);
     }
 
     @Test
-    public void deleteEmployeeReturnsA202AndDeletesTheValues() {
+    void deleteEmployeeReturnsA202AndDeletesTheValues() {
         when().delete("http://localhost:8080/employees/1")
                 .then().assertThat().statusCode(202);
         when().get("http://localhost:8080/employees/1")
@@ -105,23 +100,23 @@ public class ApiTests {
     }
 
     @Test
-    public void deleteEmployeeWithWrongIdReturns404() {
+    void deleteEmployeeWithWrongIdReturns404() {
         when().delete("http://localhost:8080/employees/1000000")
                 .then().assertThat().statusCode(404);
     }
 
-    public static List<Arguments> wrongEmployees() {
+    static Stream<Arguments> wrongEmployees() {
         List<Arguments> ans = new ArrayList<>();
-        ans.add(Arguments.arguments(1L, new Employee("", "Carpenter", "123-456-789", "john@carpenter.com")));
-        ans.add(Arguments.arguments(1L, new Employee("John", "", "123-456-789", "john@carpenter.com")));
-        ans.add(Arguments.arguments(1L, new Employee("John", "Carpenter", "", "john@carpenter.com")));
-        ans.add(Arguments.arguments(1L, new Employee("John", "Carpenter", "123-456-789", "")));
-        ans.add(Arguments.arguments(1L, new Employee("JohnHasMoreThan25CharactersInItsNameIThink", "Carpenter", "123-456-789", "john@carpenter.com")));
-        ans.add(Arguments.arguments(1L, new Employee("John", "CarpenterHasMoreThan25CharactersInItsNameIThink", "123-456-789", "john@carpenter.com")));
-        ans.add(Arguments.arguments(1L, new Employee("John", "Carpenter", "123-456-789HasMoreThan25CharactersInItsNameIThink", "john@carpenter.com")));
-        ans.add(Arguments.arguments(1L, new Employee("John", "Carpenter", "123-456-789", "john@carpenterHasMoreThan25CharactersInItsNameIThink.com")));
-        ans.add(Arguments.arguments(1L, new Employee("John", "Carpenter", "wrongRegex", "john@carpenter.com")));
-        ans.add(Arguments.arguments(1L, new Employee("John", "Carpenter", "123-456-789", "wrongRegex@")));
-        return ans;
+        ans.add(Arguments.arguments(new Employee("", "Carpenter", "123-456-789", "john@carpenter.com")));
+        ans.add(Arguments.arguments(new Employee("John", "", "123-456-789", "john@carpenter.com")));
+        ans.add(Arguments.arguments(new Employee("John", "Carpenter", "", "john@carpenter.com")));
+        ans.add(Arguments.arguments(new Employee("John", "Carpenter", "123-456-789", "")));
+        ans.add(Arguments.arguments(new Employee("JohnHasMoreThan25CharactersInItsNameIThink", "Carpenter", "123-456-789", "john@carpenter.com")));
+        ans.add(Arguments.arguments(new Employee("John", "CarpenterHasMoreThan25CharactersInItsNameIThink", "123-456-789", "john@carpenter.com")));
+        ans.add(Arguments.arguments(new Employee("John", "Carpenter", "123-456-789HasMoreThan25CharactersInItsNameIThink", "john@carpenter.com")));
+        ans.add(Arguments.arguments(new Employee("John", "Carpenter", "123-456-789", "john@carpenterHasMoreThan25CharactersInItsNameIThink.com")));
+        ans.add(Arguments.arguments(new Employee("John", "Carpenter", "wrongRegex", "john@carpenter.com")));
+        ans.add(Arguments.arguments(new Employee("John", "Carpenter", "123-456-789", "wrongRegex@")));
+        return ans.stream();
     }
 }
