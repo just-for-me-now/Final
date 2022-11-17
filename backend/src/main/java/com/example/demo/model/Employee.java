@@ -47,6 +47,9 @@ public class Employee {
         this.phoneNumber = phoneNumber;
         this.email = email;
     }
+    public Employee(){
+        
+    }
 
     public long getId() {
         return id;
