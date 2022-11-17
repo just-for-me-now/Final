@@ -24,6 +24,8 @@
   color: white;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
+
 .App-link {
   color: #61dafb;
 }
@@ -37,14 +39,18 @@
   }
 }
 *{
-
+  font-family: 'Libre Baskerville', serif;
 }
 h1{
   font-size: 4rem;
-  color:#282c34;
+  color:orangered;
+  line-height: 2;
+  letter-spacing: 3px;
+  margin-top: 0.8rem;
 }
 .cardStyle{
-  width: 20vw;
+  width: 287px;
+  height: 243px;
   border:2px solid black;
   border-radius: 5px;
   box-shadow: #282c34 2px 2px;
@@ -59,5 +65,24 @@ h1{
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
+  align-content: flex-start;
+}
+.moveRight{
+  float: right;
+  padding-right: 10px;
+  padding-top: 5px;
+}
+.clickMe{
+  cursor: pointer;
+  font-size: 1.3rem;
+  color:orangered;
+}
+.emptyCard{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.addNewCard{
+  cursor: pointer;
 }

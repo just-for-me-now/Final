@@ -1,16 +1,10 @@
 import Card from "./Card";
 import Empty from "./Empty";
 import '../App.css';
-function Container() {
+function Container(props) {
   return (
     <div className="cardsContainer">
-      <Card/>
-      <Card/>
-      <Card/>
-      <Card/>
-      <Card/>
-      <Card/>
-      <Card/>
+      {props.data?.map(employee => <Card employee={employee}/>)}
       <Empty/>
     </div>
   );
