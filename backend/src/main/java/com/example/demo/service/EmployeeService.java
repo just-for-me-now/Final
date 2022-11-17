@@ -23,9 +23,31 @@ public class EmployeeService {
     }
 
     public List<Employee> getAllEmployees() {
-
+        return repo.findAll();
     }
 
     public Employee addEmployee(Employee e) {
+        return repo.save(e);
+    }
+
+    public void updateEmployee(long id, Employee newData) {
+
+        Optional<Employee> oldEmployee = repo.findById(id);
+
+        if (!oldEmployee.isPresent()){
+            throw new EmployeeNotFondException();
+        }
+        newData.setId(id);
+        repo.save(newData);
+
+    }
+
+    public void deleteEmployee(long id) {
+
+        if (!repo.findById(id).isPresent()){
+            throw new EmployeeNotFondException();
+        }
+
+        repo.deleteById(id);
     }
 }
