@@ -7,10 +7,14 @@ function Container(props) {
     props.change();
   }
 
+  const handleModify = id => {
+    props.modify(id);
+  }
+
   return (
     <div className="cardsContainer">
-      {props.data?.map(employee => <Card key={employee.id} delete={handleChange} employee={employee}/>)}
-      <Empty newEmployee={handleChange}/>
+      {props.data?.map(employee => <Card key={employee.id} id={employee.id} modify={handleModify} delete={handleChange} employee={employee}/>)}
+      <Empty newEmployee={handleChange} buttonMsg={props.buttonMsg} />
     </div>
   );
 }

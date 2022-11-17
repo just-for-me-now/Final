@@ -2,13 +2,13 @@ import { useState } from 'react';
 import '../App.css';
 function Empty(props) {
 
-    const [firstName, setName] = useState("");
+    const [firstName, setName] = useState(props.firstName);
     const [wrongName, setWrongName] = useState("");
-    const [lastName, setLastName] = useState("");
+    const [lastName, setLastName] = useState(props.lastName);
     const [wrongLastName, setWrongLastName] = useState("");
-    const [phoneNumber, setPhone] = useState("");
+    const [phoneNumber, setPhone] = useState(props.phoneNumber);
     const [wrongPhone, setWrongPhone] = useState("");
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState(props.email);
     const [wrongEmail, setWrongEmail] = useState("");
 
     const handleSubmit = e => {
@@ -100,7 +100,7 @@ function Empty(props) {
                     <p><input className={wrongLastName} type="text" placeholder='Last Name' onChange={handleLastNameChange} value={lastName} /></p>
                     <p><input className={wrongPhone} type="text" placeholder='Phone Number' onChange={handlePhoneChange} value={phoneNumber} /></p>
                     <p><input className={wrongEmail} type="text" placeholder='Email' onChange={handleEmailChange} value={email} /></p>
-                    <p><button onClick={handleSubmit} className='clickMe'>Add new Employee</button></p>
+                    <p><button onClick={handleSubmit} className='clickMe'>{props.buttonMsg}</button></p>
                 </form>
             </div>
         </div>

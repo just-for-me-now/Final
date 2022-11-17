@@ -1,9 +1,13 @@
 import '../App.css';
 function Card(props) {
 
-    const deleteEmployee =() => {
+    const deleteEmployee = () => {
         fetch('http://localhost:8080/employees/'+props.employee.id, { method: 'DELETE' })
         props.delete();
+    }
+
+    const handleModify = () => {
+        props.modify(props.id);
     }
 
     return (
@@ -15,7 +19,7 @@ function Card(props) {
                 <p>{props.employee.lastName}</p>
                 <p>{props.employee.phoneNumber}</p>
                 <p>{props.employee.email}</p>
-                <button className='clickMe'>Modify Card</button>
+                <button className='clickMe' onClick={handleModify}>Modify Card</button>
             </div>
         </div>
       
