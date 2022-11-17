@@ -5,16 +5,16 @@ function App() {
 
   const[data, setData] = useState();
 
-  useEffect(()=>{
+  const handleChange = useEffect(()=>{
     fetch('http://localhost:8080/employees')
     .then(response => response.json())
     .then(response => setData(response));
-  }, []);
+  }, [data]);
 
   return (
     <div className="App">
       <h1>Employee Finder</h1>
-      <Container data={data}/>
+      <Container change={handleChange} data={data}/>
     </div>
   );
 }

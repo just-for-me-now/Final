@@ -1,9 +1,16 @@
 import '../App.css';
+import {useEffect} from 'react'
 function Card(props) {
+
+    const deleteEmployee =() => {
+        fetch('http://localhost:8080/employees/'+props.employee.id, { method: 'DELETE' })
+        props.delete();
+    }
+
     return (
         <div className='cardContainer'>
             <div className="cardStyle">
-                <button className='moveRight clickMe'>X</button>
+                <div className='moveRight clickMe' onClick={deleteEmployee}>X</div>
                 <br></br>
                 <p>{props.employee.firstName}</p>
                 <p>{props.employee.lastName}</p>
