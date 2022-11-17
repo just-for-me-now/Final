@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.annotations.NotFound;
 
@@ -20,24 +21,24 @@ public class Employee {
 
     @JsonProperty("first-name")
     @NotNull
-    @Max(value = 25, message = "first name cannot be longer than 25 characters")
+    @Size(max = 25, message = "first name cannot be longer than 25 characters")
     private String firstName;
 
     @JsonProperty("last-name")
     @NotNull
-    @Max(value = 25,message = "first name cannot be longer than 25 characters")
+    @Size(max = 25,message = "first name cannot be longer than 25 characters")
     private String lastName;
 
     @JsonProperty("phone-number")
     @NotNull
-    @Max(value = 20, message = "phone number cannot be longer than 20 characters")
+    @Size(max = 20, message = "phone number cannot be longer than 20 characters")
     @Pattern(regexp = "^(\\d{3}[- ]?){3}$")
     private String phoneNumber;
 
     @JsonProperty("email")
     @NotNull
-    @Max(value = 25, message = "email cannot be longer than 25 characters")
-    @Pattern(regexp = "\"\\\\b[\\\\w.%-]+@[-.\\\\w]+\\\\.[A-Za-z]{2,6}\\\\b\"")
+    @Size(max = 25, message = "email cannot be longer than 25 characters")
+    @Pattern(regexp ="^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
     private String email;
 
     public Employee(String firstName, String lastName, String phoneNumber, String email){
@@ -45,6 +46,9 @@ public class Employee {
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.email = email;
+    }
+    public Employee(){
+        
     }
 
     public long getId() {

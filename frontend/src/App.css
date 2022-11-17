@@ -36,3 +36,28 @@
     transform: rotate(360deg);
   }
 }
+*{
+
+}
+h1{
+  font-size: 4rem;
+  color:#282c34;
+}
+.cardStyle{
+  width: 20vw;
+  border:2px solid black;
+  border-radius: 5px;
+  box-shadow: #282c34 2px 2px;
+  margin:1rem;
+}
+.cardContainer{
+  margin: 0 auto;
+  align-items: flex-start;
+}
+.cardsContainer{
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
