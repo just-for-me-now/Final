@@ -1,6 +1,6 @@
-package com.example.demo.controllers;
+package com.example.demo.controller;
 
-import com.example.demo.models.Employee;
+import com.example.demo.model.Employee;
 import com.example.demo.service.EmployeeService;
 import java.net.URI;
 import java.util.List;
@@ -25,7 +25,7 @@ public class Controller {
     }
 
     @GetMapping(path = "/employees/{id}")
-    public Employee getEmployee(@PathVariable long id) {
+    public Employee getEmployee(@PathVariable long id) throws EmployeeNotFoundException {
         return service.getEmployee(id);
     }
 
@@ -41,14 +41,15 @@ public class Controller {
     }
 
     @PutMapping(path = "/employees/{id}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable long id, @RequestBody Employee newData) {
+    public ResponseEntity<Employee> updateEmployee(@PathVariable long id, @RequestBody Employee newData)
+            throws EmployeeNotFoundException {
         service.updateEmployee(id, newData);
 
         return (ResponseEntity<Employee>) ResponseEntity.accepted();
     }
 
     @DeleteMapping(path = "/employees/{id}")
-    public ResponseEntity<Employee> deleteEmployee(@PathVariable long id) {
+    public ResponseEntity<Employee> deleteEmployee(@PathVariable long id) throws EmployeeNotFoundException {
         service.deleteEmployee(id);
 
         return (ResponseEntity<Employee>) ResponseEntity.accepted();

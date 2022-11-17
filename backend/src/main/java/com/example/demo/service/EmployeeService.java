@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.models.Employee;
+import com.example.demo.controller.EmployeeNotFoundException;
+import com.example.demo.model.Employee;
 import com.example.demo.repository.EmployeeRepository;
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +12,7 @@ public class EmployeeService {
 
     private EmployeeRepository repo;
 
-    public Employee getEmployee(long id) {
+    public Employee getEmployee(long id) throws EmployeeNotFoundException {
 
         Optional<Employee> foundEmployee = repo.findById(id);
 
@@ -30,22 +31,22 @@ public class EmployeeService {
         return repo.save(e);
     }
 
-    public void updateEmployee(long id, Employee newData) {
+    public void updateEmployee(long id, Employee newData) throws EmployeeNotFoundException {
 
         Optional<Employee> oldEmployee = repo.findById(id);
 
         if (!oldEmployee.isPresent()){
-            throw new EmployeeNotFondException();
+            throw new EmployeeNotFoundException();
         }
         newData.setId(id);
         repo.save(newData);
 
     }
 
-    public void deleteEmployee(long id) {
+    public void deleteEmployee(long id) throws EmployeeNotFoundException {
 
         if (!repo.findById(id).isPresent()){
-            throw new EmployeeNotFondException();
+            throw new EmployeeNotFoundException();
         }
 
         repo.deleteById(id);
